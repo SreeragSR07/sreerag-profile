@@ -80,7 +80,7 @@
             color: var(--accent-hover);
         }
 
-        /* Section Layout & Initial Hidden State for Animation */
+        /* Section Layout & Initial Hidden State for Re-triggerable Animation */
         section {
             padding: 6rem 2rem 4rem 2rem;
             max-width: 1200px;
@@ -90,13 +90,13 @@
             flex-direction: column;
             justify-content: center;
             
-            /* Hidden initially until scrolled into view */
+            /* Hidden state reset */
             opacity: 0;
             transform: translateY(40px);
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
-        /* Class added dynamically on scroll */
+        /* Active state when in view */
         section.visible {
             opacity: 1;
             transform: translateY(0);
@@ -212,7 +212,7 @@
             border-radius: 2px;
         }
 
-        /* Competencies Grid & Staggered Animations */
+        /* Competencies Grid & Re-triggerable Staggered Animations */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -245,7 +245,7 @@
             font-size: 0.95rem;
         }
 
-        /* Staggered Entrance for Skill Cards */
+        /* Staggered Entrance (Applies when parent section gets .visible, clears when removed) */
         section.visible .skill-card {
             opacity: 1;
             transform: translateY(0);
@@ -554,7 +554,7 @@
         <p style="margin-top: 1.5rem; opacity: 0.5;">© 2026 Sreerag. All rights reserved.</p>
     </footer>
 
-    <!-- Optimized Scroll Animation Script -->
+    <!-- Re-triggerable Scroll Animation Script -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const sections = document.querySelectorAll("section");
@@ -562,12 +562,16 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
+                        // Adds animation class when entering screen
                         entry.target.classList.add("visible");
+                    } else {
+                        // Removes animation class when leaving screen so it re-triggers
+                        entry.target.classList.remove("visible");
                     }
                 });
             }, {
-                threshold: 0.05,               // Trigger as soon as 5% of section enters
-                rootMargin: "0px 0px -50px 0px" // Slight offset for smooth entrance
+                threshold: 0.15,               // Triggers when 15% of section is visible
+                rootMargin: "0px 0px -50px 0px" // Offset for a natural scroll trigger point
             });
 
             sections.forEach((section) => {
