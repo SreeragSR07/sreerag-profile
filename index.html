@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sreerag | R&D Engineer Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: #0f172a;       /* Deep Slate Blue-Gray */
+            --bg-card: #1e293b;       /* Soft Slate Card Background */
+            --accent-primary: #2563eb;/* Standard Corporate Royal Blue */
+            --accent-hover: #3b82f6;  /* Standard Soft Blue */
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #334155;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            color: var(--text-primary);
+        }
+
+        .logo span {
+            color: var(--accent-hover);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-hover);
+        }
+
+        /* Section Layout & Initial Hidden State for Animation */
+        section {
+            padding: 6rem 2rem 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 75vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            
+            /* Hidden initially until scrolled into view */
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        /* Class added dynamically on scroll */
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 4rem;
+            align-items: center;
+            padding-top: 6rem;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .hero-text h2 {
+            font-size: 1.4rem;
+            color: var(--accent-hover);
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+        }
+
+        /* Profile Photo Container - No Border */
+        .photo-container {
+            width: 100%;
+            height: 380px;
+            background: var(--bg-card);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border: none;
+        }
+
+        .photo-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 12px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            background: var(--bg-card);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-hover);
+            color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 2.5rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-primary);
+            border-radius: 2px;
+        }
+
+        /* Competencies Grid & Staggered Animations */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .skill-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 1.8rem;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: transform 0.4s ease, border-color 0.3s ease, opacity 0.4s ease;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px) !important;
+            border-color: var(--accent-hover);
+        }
+
+        .skill-card h3 {
+            color: var(--accent-hover);
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .skill-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Staggered Entrance for Skill Cards */
+        section.visible .skill-card {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        section.visible .skill-card:nth-child(1) { transition-delay: 0.1s; }
+        section.visible .skill-card:nth-child(2) { transition-delay: 0.2s; }
+        section.visible .skill-card:nth-child(3) { transition-delay: 0.3s; }
+        section.visible .skill-card:nth-child(4) { transition-delay: 0.4s; }
+        section.visible .skill-card:nth-child(5) { transition-delay: 0.5s; }
+        section.visible .skill-card:nth-child(6) { transition-delay: 0.6s; }
+
+        /* Information Cards */
+        .card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 2rem;
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-hover);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .card-title h3 {
+            font-size: 1.3rem;
+            color: var(--text-primary);
+        }
+
+        .card-subtitle {
+            color: var(--accent-hover);
+            font-weight: 500;
+            font-size: 0.95rem;
+            margin-top: 0.2rem;
+        }
+
+        .card-date {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            border: 1px solid var(--border-color);
+        }
+
+        .card-body p, .card-body ul {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .card-body ul {
+            margin-left: 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .card-body li {
+            margin-bottom: 0.4rem;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            padding: 2.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-top: 4rem;
+        }
+
+        /* Responsive Mobile Layout */
+        @media (max-width: 900px) {
+            .hero-section {
+                grid-template-columns: 1fr;
+                gap: 2.5rem;
+            }
+            .photo-container {
+                height: 320px;
+                max-width: 320px;
+                margin: 0 auto;
+            }
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Navigation Bar -->
+    <header>
+        <nav>
+            <div class="logo">SREERAG<span>.</span></div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Key Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section (About) -->
+    <section id="about">
+        <div class="hero-section">
+            <div class="hero-text">
+                <h1>Sreerag</h1>
+                <h2>R&D Engineer | Embedded Hardware Specialist</h2>
+                <p>Specializing in end-to-end embedded hardware development, circuit design, custom PCB fabrication, and web server integration for hardware control. Experienced in engineering next-generation consumer durables, AI-IoT systems, and robotics.</p>
+                <div class="cta-buttons">
+                    <a href="https://www.linkedin.com/in/sreerag-kv-224155227" target="_blank" class="btn btn-primary">LinkedIn Profile</a>
+                    <a href="https://github.com/SreeragSR07/wearable-data" target="_blank" class="btn btn-secondary">GitHub Profile</a>
+                </div>
+            </div>
+            
+            <!-- Photo Slot -->
+            <div class="photo-container">
+                <img src="profile.png" alt="Sreerag">
+            </div>
+        </div>
+    </section>
+
+    <!-- Technical Expertise Section -->
+    <section id="skills">
+        <h2 class="section-title">Core Competencies</h2>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <h3>Microcontrollers & Platforms</h3>
+                <p>ESP32, ESP8266, STM32 (Basics), AVR, and popular development microcontrollers.</p>
+            </div>
+            <div class="skill-card">
+                <h3>Embedded Hardware & Design</h3>
+                <p>Schematic Design, Hardware Architecture, Circuit Troubleshooting, and Component Selection.</p>
+            </div>
+            <div class="skill-card">
+                <h3>PCB Design & Prototyping</h3>
+                <p>Expert in KiCad, Multi-layer PCB Fabrication, Gerber File Generation, Testing, & QA.</p>
+            </div>
+            <div class="skill-card">
+                <h3>Web Servers & Automation</h3>
+                <p>Custom Embedded Web Servers, Webpage Hardware Interfacing, Local Network Automation.</p>
+            </div>
+            <div class="skill-card">
+                <h3>Wireless & Protocols</h3>
+                <p>LoRa / LoRaWAN, GSM/GPS (A9G Modules), AI-IoT Prototyping and network integration.</p>
+            </div>
+            <div class="skill-card">
+                <h3>Assembly & Manufacturing</h3>
+                <p>High-Precision Soldering, Circuit Assembly, and 3D Modeling (Blender, Tinkercad).</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Projects Section -->
+    <section id="projects">
+        <h2 class="section-title">Key Projects & AI-IoT Initiatives</h2>
+        <div class="card-list">
+            
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>AI-IoT Environmental & Climate Awareness System</h3>
+                        <div class="card-subtitle">MeitY-Funded Project | Collab with CMET, Thrissur</div>
+                    </div>
+                    <span class="card-date">Govt. Funded</span>
+                </div>
+                <div class="card-body">
+                    <p>Focused on AI-IoT-based environmental and climate awareness systems for public welfare applications. Executed end-to-end hardware design, precision fabrication, procurement, and LoRa/LoRaWAN network integration for real-world deployments.</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>Compact Humanoid Welcome Robot</h3>
+                        <div class="card-subtitle">Center for AI-IoT Innovation (CAIIoT)</div>
+                    </div>
+                    <span class="card-date">Robotics Initiative</span>
+                </div>
+                <div class="card-body">
+                    <p>Designed and engineered an interactive compact humanoid robot for reception, customer greeting, and navigation assistance. Configured motor driver logic, microcontroller interfaces, and custom physical enclosures for fluid movement.</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>LoRa Alert: Multi-Person Real-Time Tracking</h3>
+                        <div class="card-subtitle">Academic Capstone Project</div>
+                    </div>
+                    <span class="card-date">Capstone Project</span>
+                </div>
+                <div class="card-body">
+                    <p>Developed a long-range, low-power wearable tracking device utilizing LoRa communication protocols for offline emergency alert dispatch and geofencing boundary detection.</p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>GSM/GPS Emergency Alert System</h3>
+                        <div class="card-subtitle">Academic Capstone Project</div>
+                    </div>
+                    <span class="card-date">Capstone Project</span>
+                </div>
+                <div class="card-body">
+                    <p>Upgraded tracking architecture using the A9G module, enabling cellular network connectivity, precision GPS positioning, and automated SMS alert dispatching.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Professional Experience Section -->
+    <section id="experience">
+        <h2 class="section-title">Professional Experience</h2>
+        <div class="card-list">
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>R&D Engineer</h3>
+                        <div class="card-subtitle">SIGTRON Consumer Durables</div>
+                    </div>
+                    <span class="card-date">Present</span>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>Leading research and embedded hardware development initiatives for next-generation consumer durable products.</li>
+                        <li>Designing, prototyping, and testing electronic hardware architectures to optimize performance, product reliability, and manufacturability.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>Embedded Hardware & Robotics Developer</h3>
+                        <div class="card-subtitle">Center for AI-IoT Innovation (CAIIoT)</div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>Built interactive compact humanoid robotics featuring tailored motor controller boards and sensor nodes.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>Project Trainee</h3>
+                        <div class="card-subtitle">Adi Shankara Institute of Engineering & Technology (MeitY-Funded)</div>
+                    </div>
+                    <span class="card-date">May 2025 – Feb 2026</span>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>Contributed to hardware fabrication, microcontrollers, sensor integration, and LoRaWAN protocols for government-backed public welfare AI-IoT initiatives.</li>
+                        <li>Led hands-on technical workshops across departments covering PCB routing in KiCad, Gerber generation, and web server interfaces for hardware control.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <h3>Embedded Systems Intern</h3>
+                        <div class="card-subtitle">RIOD (Rugged Internet of Devices)</div>
+                    </div>
+                    <span class="card-date">Feb 2025 – Mar 2025</span>
+                </div>
+                <div class="card-body">
+                    <ul>
+                        <li>Executed precision SMD/THD soldering, assembly, and multi-layer PCB quality testing in collaboration with production engineering.</li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact & Footer -->
+    <footer id="contact">
+        <p style="margin-bottom: 1rem;"><strong>Sreerag</strong> | R&D Engineer</p>
+        <p>Location: Kerala, India | Phone: +91 9633435407 | Email: kvsreerag2@gmail.com</p>
+        <p style="margin-top: 1.5rem; opacity: 0.5;">© 2026 Sreerag. All rights reserved.</p>
+    </footer>
+
+    <!-- Optimized Scroll Animation Script -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const sections = document.querySelectorAll("section");
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                    }
+                });
+            }, {
+                threshold: 0.05,               // Trigger as soon as 5% of section enters
+                rootMargin: "0px 0px -50px 0px" // Slight offset for smooth entrance
+            });
+
+            sections.forEach((section) => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
